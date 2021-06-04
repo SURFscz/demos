@@ -10,4 +10,11 @@ FROM $BASE_IMAGE
 RUN python3 -m pip install notebook
 RUN python3 -m pip install jhub_remote_user_authenticator
 
+ENV USERNAME=admin
+ENV PASSWORD=admin
+
+RUN useradd -m -p $(openssl passwd -1 ${PASSWORD}) -s /bin/bash -G sudo ${USERNAME}
+USER admin
+WORKDIR /home/admin
+
 CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py"]
