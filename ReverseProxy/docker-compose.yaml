@@ -8,33 +8,25 @@ services:
     volumes:
       - "${PWD}/apache/reverseproxy.conf:/etc/apache2/sites-enabled/reverseproxy.conf"
       - "${PWD}/apache/passwords:/etc/apache2/passwords"
+      - "${PWD}/apache/keys:/etc/ssl/apache"
+      - "${PWD}/apache/html:/var/www/html"
     ports:
-      - 8080:80
+      - 80:80
+      - 443:443
     networks:
       jupyterhub:
         ipv4_address: 172.21.11.2
 
-  hub1:
-    build:
-      context: jupyterhub
-    volumes:
-      - "${PWD}/jupyterhub/jupyterhub1_config.py:/srv/jupyterhub/jupyterhub_config.py"
-    expose:
-      - 8000
-    networks:
-      jupyterhub:
-        ipv4_address: 172.21.11.3
-
-  hub2:
-    build:
-      context: jupyterhub
-    volumes:
-      - "${PWD}/jupyterhub/jupyterhub2_config.py:/srv/jupyterhub/jupyterhub_config.py"
-    expose:
-      - 8000
-    networks:
-      jupyterhub:
-        ipv4_address: 172.21.11.4
+#  hub1:
+#    build:
+#      context: jupyterhub
+#    volumes:
+#      - "${PWD}/jupyterhub/jupyterhub1_config.py:/srv/jupyterhub/jupyterhub_config.py"
+#    expose:
+#      - 8000
+#    networks:
+#      jupyterhub:
+#        ipv4_address: 172.21.11.3
 
   ep1:
     build:
@@ -48,19 +40,6 @@ services:
     networks:
       jupyterhub:
         ipv4_address: 172.21.11.5
-
-  ep2:
-    build:
-      context: etherpad
-      args:
-        ETHERPAD_PLUGINS: ep_headerauth
-    volumes:
-      - "${PWD}/etherpad/settings.json:/opt/etherpad-lite/settings.json"
-    expose:
-      - 9001
-    networks:
-      jupyterhub:
-        ipv4_address: 172.21.11.6
 
 networks:
   jupyterhub:

@@ -6,8 +6,12 @@ ENV TERM linux
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt update -y  && apt upgrade -y
-RUN apt install -y apache2
+RUN apt install -y apache2 libapache2-mod-auth-openidc
 RUN apt clean -y && apt-get autoremove -y
-RUN a2enmod headers rewrite proxy_http proxy_wstunnel
+RUN a2dissite 000-default
+RUN a2enmod headers rewrite proxy_http proxy_wstunnel auth_openidc ssl
+
+EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT /bin/rm -f /var/run/apache2/apache2.pid; /usr/sbin/apache2ctl -DFOREGROUND

@@ -1,0 +1,22 @@
+[Unit]
+Description=%i SRAM Demo service with docker compose
+Requires=docker.service
+After=docker.service
+
+[Service]
+DynamicUser=yes
+User=sram-demos-%i
+SupplementaryGroups=sram-demos
+SupplementaryGroups=docker
+
+WorkingDirectory=/srv/demos/demos/%i
+Environment=PWD=/srv/demos/demos/%i
+
+ExecStartPre=/usr/bin/docker-compose build
+ExecStart=/usr/bin/docker-compose up --remove-orphans
+
+Restart=always
+RestartSec=60s
+
+[Install]
+WantedBy=multi-user.target
