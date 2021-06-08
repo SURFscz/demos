@@ -1,4 +1,4 @@
-# ReverseProxy
+# Apache ReverseProxy
 ## Installation
 - Copy ```.env-example``` to ```.env``` and change ```DOMAIN``` to required domain
 - Copy ```apache/reverseproxy.conf.example``` to ```apache/reverseproxy.conf``` and change OIDC client details or use the Basic auth configuration for testing
