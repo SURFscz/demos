@@ -22,6 +22,8 @@
         RewriteEngine on
 
         # Authentication Header
+        RequestHeader unset X-Authenticated-User
+        RequestHeader unset X-Authenticated-Name
         RequestHeader set X-Authenticated-User expr=%{ENV:OIDC_CLAIM_sub}
         RequestHeader set X-Authenticated-Name expr=%{ENV:OIDC_CLAIM_sub}
 
