@@ -10,6 +10,7 @@ services:
       - "${PWD}/apache/passwords:/etc/apache2/passwords"
       - "${PWD}/apache/keys:/etc/ssl/apache"
       - "${PWD}/apache/html:/var/www/html"
+      - "/etc/letsencrypt:/etc/letsencrypt"
     ports:
       - 80:80
       - 443:443
