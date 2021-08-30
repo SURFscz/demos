@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>SURF Research Access Management: demo services</title>
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
+
+		<style>
+			body {
+				margin: 60px;
+				display: grid;
+			}
+			.header {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+			}
+			.header::before {
+				content: "before";
+				display: block;
+				box-sizing: border-box;
+				height: 60px;
+				width: calc(160px + 60px);
+				border-color: rgb(204, 204, 204);
+				border-style: solid;
+				border-width: 0px;
+				border-right-width: 2px;
+				border-top-width: 2px;
+				border-top-right-radius: 60px;
+			}
+			.header img {
+				display: block;
+				position: relative;
+				width: 140px;
+				height: 72.8px;
+				top: -18px;
+				left: 60px;
+			}
+			.header::after {
+				content: "after";
+				display: block;
+				box-sizing: border-box;
+				position: relative;
+				width: auto;
+				height: 60px;
+				top: -72.8px;
+				left: calc(160px - 2px + 60px);
+				border-color: rgb(204, 204, 204);
+				border-style: solid;
+				border-width: 0px;
+				border-left-width: 2px;
+				border-bottom-width: 2px;
+				border-bottom-left-radius: 60px;
+			}
+			.right {
+				display: block;
+				position: relative; 
+				box-sizing: border-box;
+				width: auto;
+				height: 1000px;
+				border-color: rgb(204, 204, 204);
+				border-style: solid;
+				border-width: 0px;
+				border-left-width: 2px;
+				border-top-width: 2px;
+				border-top-left-radius: 60px;
+				border: solid red 1px;
+			}
+			.content {
+				display: block;
+				position: relative; 
+				top: 120px;
+				padding-top: 20px;
+				width: 80%;
+				border: solid blue 1px;
+			}
+		</style>
+		<script language="javascript">
+			/*
+			var anchor = window.location.hash;
+			//confirm("hoi"+Document.referrer);
+			if (anchor != "#logout") {
+				//window.location.replace("/login/redirect_uri?info=json");
+				window.location.replace("/login/redirect_uri?logout=/denied.html#logout");
+			}
+			*/
+		</script>
+
+
+	</head>
+	<body>
+		<div class="header"><img src="https://www.surf.nl/themes/surf/logo.svg" alt="Home"></div>
+		<div class="content">
+			<h1>dit is de paginaheader</h1>
+			<p>
+			Sorry, you are not allowed to access this service.
+			</p><p>&nbsp;</p><p>
+			To get access, please become a member of the Universiteit van Harderwijk.
+			</p><p>&nbsp;</p><p>
+			<form action="/ep5"><p>
+				Press here to try logging in again <button type="submit">Login</button>
+				</p>
+			</form>
+		</div>
+		<div class="right"></div>
+	</body>
+</html>
