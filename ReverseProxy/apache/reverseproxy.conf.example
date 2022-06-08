@@ -4,6 +4,7 @@
         ServerName custom.domain.tld
         DocumentRoot /var/www/html
 
+        # Remove OIDC option when using Basic Auth
         OIDCProviderMetadataURL <insert .well-known endpoint here>
         OIDCClientID <insert your client-id here>
         OIDCClientSecret <insert your client-secret here>
@@ -26,12 +27,14 @@
         RequestHeader unset X-Authenticated-Name
         RequestHeader set X-Authenticated-User expr=%{ENV:OIDC_CLAIM_sub}
         RequestHeader set X-Authenticated-Name expr=%{ENV:OIDC_CLAIM_sub}
+        # Basic auth example
+        #RequestHeader set X-Authenticated-User expr=%{REMOTE_USER}
+        #RequestHeader set X-Authenticated-Name expr=%{REMOTE_USER}
 
         <Location />
             #AuthType Basic
             #AuthName "Restricted"
-              # (Following line optional)
-              #AuthBasicProvider file
+            #AuthBasicProvider file
             #AuthUserFile "/etc/apache2/passwords"
             AuthType openid-connect
             Require valid-user
