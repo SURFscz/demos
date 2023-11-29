@@ -41,13 +41,15 @@
         </Location>
 
         RedirectMatch 301 /hub(\d+)$ /hub$1/
+        <LocationMatch "^/hub\d+/.+/(api|static|lsp)">
+            Require all granted
+        </LocationMatch>
         <LocationMatch "^/hub(\d+)/(.*)">
             RewriteCond %{HTTP:Connection} Upgrade [NC]
-            RewriteCond %{HTTP:Upgrade} websocket [NC]
-            RewriteRule /hub(\d+)/(.*) ws://172.21.11.$1:8000/hub$1/$2 [NE,P,L]
-
-            ProxyPassMatch http://172.21.11.$1:8000/hub$1/$2
-            ProxyPassReverse http://172.21.11.$1:8000/hub$1/$2
+            RewriteCond %{HTTP:Upgrade} =websocket [NC]
+            RewriteRule /hub(\d+)/(.*) ws://172.21.11.$1:8000/hub$1/$2 [P,L]
+            RewriteCond %{HTTP:Upgrade} !=websocket [NC]
+            RewriteRule /hub(\d+)/(.*) http://172.21.11.$1:8000/hub$1/$2 [P,L]
         </LocationMatch>
 
         RedirectMatch 301 /ep(\d+)$ /ep$1/

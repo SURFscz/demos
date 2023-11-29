@@ -1,3 +1,2 @@
 .env
-traefik/acme.json
 apache/reverseproxy.conf
