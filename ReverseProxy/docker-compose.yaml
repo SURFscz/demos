@@ -28,8 +28,12 @@ services:
     depends_on:
       - traefik
     volumes:
-      - "${PWD}/apache/reverseproxy.conf:/etc/apache2/sites-enabled/reverseproxy.conf"
-      - "${PWD}/apache/passwords:/etc/apache2/passwords"
+      - type: bind
+        source: "${PWD}/apache/passwords"
+        target: "/etc/apache2/passwords"
+      - type: bind
+        source: "${PWD}/apache/reverseproxy.conf"
+        target: "/etc/apache2/sites-enabled/reverseproxy.conf"
     networks:
       jupyterhub:
           ipv4_address: 172.21.11.2
