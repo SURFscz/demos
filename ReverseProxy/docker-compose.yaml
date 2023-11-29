@@ -6,8 +6,6 @@ services:
   traefik:
     image: "traefik:v2.4"
     command:
-      #- "--log.level=DEBUG"
-      - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
@@ -16,24 +14,13 @@ services:
       - "443:443"
     networks:
       - traefik
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.${DOMAIN}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-      - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.tls=true"
-      - "traefik.http.routers.dashboard.tls.certresolver=le"
-      - "traefik.http.routers.dashboard.middlewares=dashboardAuth"
-      - "traefik.http.middlewares.dashboardAuth.basicauth.users=admin:$$apr1$$zjLb9n9a$$T98arZaUSS3uhst0Nrlw90"
-      - "traefik.http.routers.httpCatchall.rule=HostRegexp(`{any:.+}`)"
-      - "traefik.http.routers.httpCatchall.entrypoints=http"
-      - "traefik.http.routers.httpCatchall.middlewares=httpsRedirect"
-      - "traefik.http.middlewares.httpsRedirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.httpsRedirect.redirectscheme.permanent=true"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./traefik/traefik.toml:/traefik.toml"
-      - "./traefik/acme.json:/acme.json"
       - "./traefik/conf.d:/conf.d"
+      - type: bind
+        source: "./traefik/acme.json"
+        target: "/acme.json"
 
   proxy:
     build:
@@ -82,10 +69,10 @@ services:
         ipv4_address: 172.21.11.4
 
   ep1:
-    build:
-      context: etherpad
-      args:
-        ETHERPAD_PLUGINS: ep_headerauth
+    image: etherpad/etherpad
+    environment:
+      - TRUST_PROXY=true
+      - MINIFY=false
     volumes:
       - "${PWD}/etherpad/settings.json:/opt/etherpad-lite/settings.json"
     expose:
@@ -95,10 +82,10 @@ services:
         ipv4_address: 172.21.11.5
 
   ep2:
-    build:
-      context: etherpad
-      args:
-        ETHERPAD_PLUGINS: ep_headerauth
+    image: etherpad/etherpad
+    environment:
+      - TRUST_PROXY=true
+      - MINIFY=false
     volumes:
       - "${PWD}/etherpad/settings.json:/opt/etherpad-lite/settings.json"
     expose:
