@@ -54,11 +54,10 @@
 
         RedirectMatch 301 /ep(\d+)$ /ep$1/
         <LocationMatch "^/ep(\d+)/(.*)">
-            ProxyPassMatch http://172.21.11.$1:9001/$2
-            ProxyPassReverse  http://172.21.11.$1:9001/$2
-        </LocationMatch>
-        <LocationMatch "^/ep(.+)/socket.io">
-            RewriteCond %{QUERY_STRING} transport=websocket    [NC]
-            RewriteRule /ep(\d+)/(.*) ws://172.21.11.$1:9001/socket.io/$2 [P,L]
+            RewriteCond %{HTTP:Connection} Upgrade [NC]
+            RewriteCond %{HTTP:Upgrade} =websocket [NC]
+            RewriteRule /ep(\d+)/(.*) ws://172.21.11.$1:9001/$2 [P,L]
+            RewriteCond %{HTTP:Upgrade} !=websocket [NC]
+            RewriteRule /ep(\d+)/(.*) http://172.21.11.$1:9001/$2 [P,L]
         </LocationMatch>
 </VirtualHost>
