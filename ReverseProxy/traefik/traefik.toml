@@ -22,6 +22,6 @@
 
 # Certificate resolvers
 [certificatesResolvers.le.acme]
-  email = "admin@custom.domain.tld"
+  email = "admin@demo.sram.surf.nl"
   storage = "acme.json"
   [certificatesResolvers.le.acme.tlsChallenge]
